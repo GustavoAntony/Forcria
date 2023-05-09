@@ -119,4 +119,4 @@ print(lista_derroatas)
 
 dict = {"erros":lista_derroatas }
 df = pd.DataFrame(dict)
-df.to_csv("erros2.csv")
+df.to_csv("erros3.csv")
