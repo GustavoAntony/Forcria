@@ -21,7 +21,6 @@ class JogoDeForca:
             else:
                 self.vidas -= 1
                 if self.vidas == 0:
-                    print("Fim de jogo!")
                     return False
                 else:
                     return []
@@ -29,12 +28,9 @@ class JogoDeForca:
     def tentar_palavra(self, palavra):
         if self.vidas > 0:
             if self.palavra == palavra:
-                print ("Ganhou!")
                 return True
             else:
                 self.vidas = 0
-                print("Fim de jogo!")
                 return False
             
-jogo = JogoDeForca()
-jogo.novo_jogo()
+

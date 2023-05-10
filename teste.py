@@ -76,47 +76,56 @@ class Jogador():
 
     
 
-
+#inicializando a quantidade de vitorias e derrotas e a lista de derrotas
 qtd_vitorias = 0
 qtd_derrotas = 0
 lista_derroatas = []
+#cria o jogo 100 vezes
 for i in range(100):
+    #inicializa o jogo de forca (Desenvolvido pelo professor)
     jogo = JogoDeForca()
     tamanho_palavra = jogo.novo_jogo()
-    # jogo.palavra = "falece"
-    # tamanho_palavra = 6
+    #var inicial recebe a palavra esperada
     inicial = jogo.palavra
-    print(inicial)
+    #inicializa o jogador
     jogador = Jogador(tamanho_palavra, jogo.content)
     letra = ""
+    #lista de acertos que receberá o feedback do "juiz"
     lista_acertos = []
     terminou = False
+    # loop que realiza as jogadas enquanto a quantidade de vidas é maior ou igual a 1.
     while terminou == False and jogo.vidas >= 1:
+        #letra chutada pelo algortimo
         letra = jogador.jogada(letra,lista_acertos)
+        #caso a lista de palavras possiveis só tenha uma palavra
         if len(jogador.palavras_possiveis) == 1: 
+            #chuta a palavra
             chute = jogador.palavras_possiveis[0]
-            print(chute)
+            j = jogo.tentar_palavra(chute)
+            #caso tenha acertado a palavra
+            if j:
+                #caso tenha ganhado aumenta a quantidade de vitórias
+                qtd_vitorias += 1
+            #caso tenha errado a palavra
+            else:
+                terminou = True
+                chute = jogador.palavras_possiveis
+                qtd_derrotas += 1
+                lista_derroatas.append([inicial,chute])
             terminou = True
             break
+        #caso contrário
         else:
-            if jogo.vidas == 1:
-                chute = random.choice(jogador.palavras_possiveis)
-                print(chute)
+            #caso o tamanho da lista de palavras possiveis seja maior que 1, o algortimo tenta uma letra.
+            lista_acertos = jogo.tentar_letra(letra)
+            #caso tenha errado a letra e as vidas tenham acabado
+            if lista_acertos == False:
                 terminou = True
-            else:
-                lista_acertos = jogo.tentar_letra(letra)
-    # print(chute)
-    # print(inicial)
-    if chute == inicial:
-        qtd_vitorias += 1
-    else:
-        qtd_derrotas += 1
-        lista_derroatas.append(chute)
+                chute = jogador.palavras_possiveis
+                qtd_derrotas += 1
+                lista_derroatas.append([inicial,chute])
     
-print(f"qtd vitorias: {qtd_vitorias}")
-print(f"qtd derrotas: {qtd_derrotas}")
-print(lista_derroatas)
-
-dict = {"erros":lista_derroatas }
-df = pd.DataFrame(dict)
-df.to_csv("erros3.csv")
+print(f"Quantidade de vitorias: {qtd_vitorias}")
+print(f"Quantidade de derrotas: {qtd_derrotas}")
+#(formato: [palavra, lista_de_palavras_possíveis]) 
+print(f"Lista com os chutes errados: {lista_derroatas}")
