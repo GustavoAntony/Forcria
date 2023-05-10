@@ -33,5 +33,4 @@ class JogoDeForca:
                 self.vidas = 0
                 return False
             
-jogo = JogoDeForca()
-jogo.novo_jogo()
+
